@@ -1,9 +1,10 @@
-class Solution {
+/*class Solution {
 public:
     string minRemoveToMakeValid(string s) {
         int n = s.length();
         stack<pair<char,int>> st; // char is string char and int is index.
         st.push({' ', -1}); // so st.top() will not give error at empty stack.
+        vector<bool> ass(n, true);
         for(int i = 0; i < n; i++){
             if(s[i] == '('){
                 st.push({s[i], i}); // remembering that use {} to push pairs.
@@ -18,12 +19,60 @@ public:
                 }
             }
         }
-        while(st.size() > 1){ // wrong because st.size changes after popping, better to use st.empty() but becuase we have a sentinel have to use st.size() > 1 and a while loop.
-            int remove = st.top().second;
-            s.erase(remove, 1);
+        while(st.size() > 1){
+            ass[st.top().second] = false;
             st.pop();
         }
-    return s;
+        string ans;
+        for(int i = 0; i < n; i++){
+            if(ass[i]){
+                ans += s[i];
+            }
+        }
+    return ans;
+    }
+};
+*/
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+
+        int n = s.length();
+
+        stack<int> st;
+        vector<bool> keep(n, true);
+
+        for(int i = 0; i < n; i++) {
+
+            if(s[i] == '(') {
+                st.push(i);
+            }
+
+            else if(s[i] == ')') {
+
+                if(!st.empty()) {
+                    st.pop();
+                }
+                else {
+                    keep[i] = false;
+                }
+            }
+        }
+
+        while(!st.empty()) {
+            keep[st.top()] = false;
+            st.pop();
+        }
+
+        string ans;
+
+        for(int i = 0; i < n; i++) {
+            if(keep[i]) {
+                ans += s[i];
+            }
+        }
+
+        return ans;
     }
 };
 
