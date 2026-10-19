@@ -4,13 +4,8 @@ public:
         int n = words.size();
         vector<int> ans;
         for(int i = 0; i < n; i++){
-            string temp = words[i];
-            bool pushed = false;
-            for(int j = 0; j < temp.length(); j++){                
-                if(temp[j] == x && pushed != true){
-                    ans.push_back(i);
-                    pushed = true;
-                }
+            if(words[i].find(x) != string::npos){
+                ans.push_back(i);
             }
         }
         return ans;
